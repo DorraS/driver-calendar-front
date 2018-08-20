@@ -1,0 +1,31 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="ID_INPUT_DEPART_ADRESS">depart Address</label>
+      <input type="text" class="form-control" formControlName="departureAdress" id="ID_INPUT_DEPART_ADRESS" [ngbTypeahead]="search"
+        [resultFormatter]="formatter" placeholder="1 rue ...., 57000, metz" />
+    </div>
+    <div class="form-group col-md-6">
+      <label for="ID_INPUT_ARRIVAL_ADRESS">arrival address</label>
+      <input type="text" class="form-control" formControlName="arrivalAddress" id="ID_INPUT_ARRIVAL_ADRESS" [ngbTypeahead]="search"
+        [resultFormatter]="formatter" placeholder="1 rue ...., 57000, metz" />
+    </div>
+    <div class="form-group col-md-6">
+      <label for="ID_INPUT_CUSTOMER>Customer</label>
+      <input type="text" class="form-control" formControlName="customer" id="ID_INPUT_CUSTOMER" [ngbTypeahead]="searchUser"
+        [resultFormatter]="formatterUser" placeholder="search Costomer by Last Name  Or by phone number ou by secity number or email " />
+    </div>
+    <div class="form-group col-md-6">
+      <label for="ID_INPUT_DEART_DATE">depart date</label>
+      <input type="datetime-local" class="form-control" formControlName="departureDate" id="ID_INPUT_DEART_DATE"> 
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="form.invalid"> Save Ride </button>
+
+  <input type="text" class="form-control" formControlName="arrivalAddress" id="ID_INPUT_ARRIVAL_ADRESS" [ngbTypeahead]="search"
+        [resultFormatter]="formatter" placeholder="1 rue ...., 57000, metz" />
+  
+  <button type="submit" class="btn btn-primary" [disabled]="form.invalid"> Save Ride </button>
+  
+</form>
