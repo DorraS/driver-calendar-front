@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { GoogleService, Place } from '@shared/services/google.service';
 import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, filter, switchMap } from 'rxjs/operators';
-import { GooglePlaceService } from '@shared/services/google-place.service';
+import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,12 +14,12 @@ export class PlaceAutoCompileComponent implements OnInit {
   public model: any;
   formatter = (result: string) => result.toUpperCase();
 
-  constructor(private googleService: GooglePlaceService) { }
+  constructor(private googleService: GoogleService) { }
 
   ngOnInit() {
   }
 
-  search = (text$: Observable<string>): Observable<string[]> =>
+  search = (text$: Observable<string>): Observable<Place[]> =>
     text$.pipe(
       filter((searchText: string) => searchText.trim().length > 1),
       debounceTime(200),

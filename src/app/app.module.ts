@@ -15,11 +15,14 @@ import { CalendarModule } from 'angular-calendar';
 import { TestCalanderComponent } from './test-calander/test-calander.component';
 import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
 import { SharedModule } from '@shared/shared.module';
+import { NotificationComponent } from '@shared/directives/notification/notification.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
   declarations: [
     AppComponent,
     TestCalanderComponent,
-   CalendarHeaderComponent,
+    CalendarHeaderComponent,
   ],
   imports: [ BrowserModule,
     BrowserAnimationsModule,
@@ -33,9 +36,10 @@ import { SharedModule } from '@shared/shared.module';
     NgbModule.forRoot(),
     NgbModalModule.forRoot(),
     FlatpickrModule.forRoot(),
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    NgSelectModule
   ],
-  exports: [CommonModule, RouterModule, FormsModule, TestCalanderComponent, CalendarHeaderComponent],
+  exports: [CommonModule, RouterModule, FormsModule, TestCalanderComponent, CalendarHeaderComponent, NgSelectModule],
   providers: [],
   bootstrap: [AppComponent]
 })

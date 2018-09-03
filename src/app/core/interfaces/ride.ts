@@ -1,18 +1,15 @@
 import { IUser } from '@core/interfaces/user.interface';
 import { RideService } from '@core/services/ride/ride.service';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { IDriverModelCommon } from '@core/interfaces/role.interface';
 
-export interface IRide {
+export interface IRide extends IDriverModelCommon {
 
-    departureDate: string;
+    departureDate: Date;
 
     comment: string;
 
-    duration: number; // durée de la course en mn
-
-    distance: number; // distance de la course en KM
-
-    estimatePrice: number; // cout de la course en euro
+    estimate: any; // estimation de la cours :  durée, distance ( recupérer de google) et prix calculer en local
 
     departureAdress: string;
 
@@ -22,24 +19,30 @@ export interface IRide {
 
     customer: IUser;
 
-    status: string;
+    rideType: IRideType;
 
-    typeRide: string;
+    status: string;
+}
+
+
+export interface IRideType {
+    id?: number;
+    code: string;
+    label: string;
 }
 
 
 export function getRidFormConfig(ride: IRide, service?: RideService) {
     return {
         departureDate: [ride && ride.departureDate || new Date().toISOString(), [Validators.required]],
-        departureAdress: [ride && ride.departureAdress || '', [Validators.required]],
-        arrivalAddress: [ride && ride.arrivalAddress || '', [Validators.required]],
-        customer: [ride && ride.customer || '', [Validators.required]],
-        typeRide: [ride && ride.typeRide || '', [Validators.required]],
-        driver: [ride && ride.driver || ''],
-        comment: [ride && ride.comment || ''],
-        duration: [ride && ride.duration || 0],
-        distance: [ride && ride.distance || 0],
-        estimatePrice: [ride && ride.estimatePrice || 0],
+        departureAdress: [ride && ride.departureAdress && ride.departureAdress, [Validators.required]],
+        arrivalAddress: [ride && ride.arrivalAddress && ride.arrivalAddress, [Validators.required]],
+        customer: [ride && ride.customer, [Validators.required]],
+        rideType: [ride && ride.rideType, [Validators.required]],
+        driver: [ride && ride.driver ],
+        comment: [ride && ride.comment ],
+        estimate: [ride && ride.estimate]
+        // estimatePrice: [ride && ride.estimatePrice],
     };
 }
 

@@ -1,6 +1,7 @@
 import { User } from '@core/models/user-model';
 import * as moment from 'moment';
 import { RideStyle } from '@core/models/ride-style-ride';
+import { IRideType } from '@core/interfaces/ride';
 
 export class Ride {
 
@@ -10,9 +11,10 @@ export class Ride {
     duration?: moment.Duration;
     departAdresse: any;
     arrivalAdresse: any;
-    costumer?: User;
+    costumer: User;
     driver?: User;
     status?: any;
+    ridetype: IRideType;
     style: RideStyle;
 
     constructor(departAdresse?, arrivalAdresse?, date?, departDate?, duration?: number, color?) {

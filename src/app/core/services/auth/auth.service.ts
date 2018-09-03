@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -9,8 +9,9 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  private authUrl = 'http://localhost:1337/login';  // URL to web api
+  private authUrl = '/api/login';  // URL to web api
   private user: any;
+  private conneted$ =  new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -18,8 +19,9 @@ export class AuthService {
     return this.http.post<any>(this.authUrl, { 'password': password, 'username': login })
       .pipe(
         map(data => {
+          localStorage.setItem('currUser', JSON.stringify(data));
           this.user = data;
-           this.router.navigate(['/ride']);
+           this.conneted$.next(true);
           return data;
         }),
         // tslint:disable-next-line:no-shadowed-variable
@@ -33,8 +35,8 @@ export class AuthService {
     return this.user;
   }
 
-  isAuth(): boolean {
-    return this.user ? true : false;
+  isConnected(): Observable<boolean> {
+    return this.conneted$.asObservable();
   }
 }
 

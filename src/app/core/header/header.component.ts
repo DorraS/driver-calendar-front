@@ -9,7 +9,14 @@ export class HeaderComponent implements OnInit {
 
   constructor() { }
 
+  showAdminSubMenu = false;
+
   ngOnInit() {
+  }
+
+
+  showAdminMenu() {
+    this.showAdminSubMenu = !this.showAdminSubMenu;
   }
 
 }

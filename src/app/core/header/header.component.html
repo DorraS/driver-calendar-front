@@ -1,31 +1,29 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" [routerLink]="['/home']">Driver Calendar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-    aria-expanded="false" aria-label="Toggle navigation">
+  <a class="navbar-brand" href="/">Driver Calendar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home
-          <span class="sr-only">(current)</span>
+      <li class="nav-item">
+        <a class="nav-link" href="/calendar">Ride</a>
+      </li>
+      <li class="nav-item dropdown" [class.show]="showAdminSubMenu">
+        <a class="nav-link dropdown-toggle" (click)="showAdminMenu()" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Administration
         </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/ride']">Create Ride</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/user']">Create user</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/calendar']">Calendar</a>
+        <div class="dropdown-menu" [class.show]="showAdminSubMenu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/admin/user">Utilisateurs</a>
+          <!-- <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a> -->
+        </div>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
+    <!-- <form class="form-inline my-2 my-lg-0">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    </form> -->
   </div>
 </nav>

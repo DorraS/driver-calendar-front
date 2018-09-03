@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { GooglePlaceService } from './google-place.service';
+import { GoogleService } from '@shared/services/google.service';
 
 describe('GooglePlaceService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [GooglePlaceService]
+      providers: [GoogleService]
     });
   });
 
-  it('should be created', inject([GooglePlaceService], (service: GooglePlaceService) => {
+  it('should be created', inject([GoogleService], (service: GoogleService) => {
     expect(service).toBeTruthy();
   }));
 });

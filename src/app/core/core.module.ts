@@ -5,6 +5,7 @@ import { FooterComponent } from '@core/footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from '@core/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   imports: [
@@ -13,7 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [HeaderComponent, FooterComponent, LoginComponent],
+  declarations: [HeaderComponent, FooterComponent, LoginComponent, HomeComponent],
   exports: [HeaderComponent, FooterComponent, LoginComponent]
 })
 export class CoreModule { }

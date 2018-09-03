@@ -1,21 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '@core/services/guard/auth.guard';
+import { LoginComponent } from '@core/login/login.component';
 
 const routes: Routes = [
   {
     path: 'admin',
     loadChildren: './modules/admin/admin.module#AdminModule',
-    // canActivate: [AuthGuard]
+     canActivate: [AuthGuard]
   },
   {
-     path: 'calendar',
+    path: 'calendar',
     loadChildren: './modules/driver-calendar/diver-calendar.module#DiverCalendarModule',
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
-
+  {
+  path: 'login',
+   component: LoginComponent
+  },
   // otherwise redirect to home
-  { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-  { path: '**', resolve: {}, redirectTo: 'dashboard' },
+  { path: 'home', redirectTo: 'calendar' },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: '**', resolve: {}, redirectTo: 'home' },
 ];
 
 @NgModule({

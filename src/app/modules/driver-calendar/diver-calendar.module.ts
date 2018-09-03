@@ -14,6 +14,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from '@shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CalendarHeaderComponent } from './components/calendar-header/calendar-header.component';
 
 @NgModule({
   imports: [
@@ -22,12 +24,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     CalendarRoutingModule,
     NgbModule,
+    NgSelectModule,
    // NgbModalModule.forRoot(),
    SharedModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot()
   ],
-  declarations: [CalendarComponent, RideDetailComponent, DriverCalendarComponent, RideItemComponent],
+  declarations: [CalendarComponent, RideDetailComponent, DriverCalendarComponent, RideItemComponent, CalendarHeaderComponent],
   exports: [CalendarComponent, RideDetailComponent, DriverCalendarComponent, RideItemComponent],
   providers: [ RideResolver]
 })

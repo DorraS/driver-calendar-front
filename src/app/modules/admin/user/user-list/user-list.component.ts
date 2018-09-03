@@ -30,4 +30,8 @@ export class UserListComponent implements OnInit {
     }
   }
 
+  createNewUser() {
+    this._router.navigate(['admin/user/create']);
+  }
+
 }

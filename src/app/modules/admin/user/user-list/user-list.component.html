@@ -1,3 +1,7 @@
+
+<div class="row">
+   <button type="submit" class="btn btn-primary"  (click)="createNewUser()">Create New User</button>
+</div>
 <table class="table table-hover" mat-table [dataSource]="users$" class="mat-elevation-z8">
 
   <ng-container *ngFor="let column of _tableTemplate" matColumnDef="{{column.key}}" onabort="">

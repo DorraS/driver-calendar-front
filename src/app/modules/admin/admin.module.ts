@@ -8,6 +8,8 @@ import { UserListComponent } from '@modules/admin/user/user-list/user-list.compo
 import { UserDetailComponent } from '@modules/admin/user/user-detail/user-detail.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialConfigModule } from '@shared/material-config/material-config.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -15,7 +17,9 @@ import { MaterialConfigModule } from '@shared/material-config/material-config.mo
     AdminRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    MaterialConfigModule
+    MaterialConfigModule,
+    NgSelectModule,
+    NgbModule
   ],
   declarations: [AdminComponent, UserItemComponent, UserListComponent, UserDetailComponent]
 })

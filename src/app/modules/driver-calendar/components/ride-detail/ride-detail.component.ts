@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { RideService } from '@core/services/ride/ride.service';
-import { ActivatedRoute } from '@angular/router';
-import { IRide, getRideForm } from '@core/interfaces/ride';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IRide, getRideForm, IRideType } from '@core/interfaces/ride';
 import { Observable } from 'rxjs';
 import { filter, debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
-import { GooglePlaceService } from '@shared/services/google-place.service';
+import { GoogleService, Place } from '@shared/services/google.service';
 import { UserService } from '@core/services/user/user.service';
 import { IUser } from '@core/interfaces/user.interface';
+import { TyperideService } from '@core/services/ride/typeride.service';
 
 @Component({
   selector: 'dc-ride-detail',
@@ -16,8 +17,13 @@ import { IUser } from '@core/interfaces/user.interface';
 })
 export class RideDetailComponent implements OnInit {
 
+  estimationRide;
   form: FormGroup;
-  search = (text$: Observable<string>): Observable<string[]> =>
+  typeRide$: Observable<IRideType[]>;
+  currentRide: IRide;
+
+  /* search adress with google place*/
+  search = (text$: Observable<Place>): Observable<Place[]> =>
     text$.pipe(
       filter((searchText: string) => searchText.trim().length > 1),
       debounceTime(200),
@@ -25,6 +31,7 @@ export class RideDetailComponent implements OnInit {
       switchMap(term => this.googleService.findPlacesPropositons(term))
     )
 
+  /* search user */
   searchUser = (text$: Observable<string>): Observable<IUser[]> =>
     text$.pipe(
       filter((searchText: string) => searchText.trim().length > 3),
@@ -33,37 +40,68 @@ export class RideDetailComponent implements OnInit {
       map<string, any>(data => {
         if (/^\+?[0-9]*$/.test(data)) {
           return {
-            phoneNumber: data,
-            socialSecurityNumber: +data
-          } as IUser;
+            or: [
+              { phoneNumber: { contains: data } },
+              { socialSecurityNumber: { contains: data } },
+            ]
+          };
         } else if (/.*@.{2,}\..*/.test(data)) {
           return {
-            email: data
-          } as IUser;
+            email: { contains: data }
+          };
         }
-        return { lastName: data, email: data } as IUser;
+        return { or: [{ lastName: { contains: data } }, { email: { contains: data } }] };
       }),
-      switchMap(term => this.userService.getAll({ where: term, order: 'lastName' }))
+      switchMap(term => this.userService.getAll({ where: term }))
     )
 
-  formatter = (result: IUser) => result.firstName + result.lastName;
+  formatterUser = (result: IUser) => result ? `${result.firstName} ${result.lastName}` : '';
+
+  formatter = (result: Place) => result.description;
 
   constructor(private rideService: RideService,
     private userService: UserService,
-    private googleService: GooglePlaceService,
-    private route: ActivatedRoute) { }
+    private googleService: GoogleService,
+    private typeRideSerive: TyperideService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
-
     const snapshotRide: any = this.route.parent.snapshot.data.ride;
-
-    this.form = getRideForm(snapshotRide as IRide);
-
+    this.currentRide = snapshotRide;
+    this.form = getRideForm(this.currentRide);
+    this.typeRide$ = this.typeRideSerive.getAll();
     console.log('form', this.form);
   }
 
   submit() {
-    this.rideService.create(this.form.value).subscribe();
+    console.log(this.form);
+
+    const ride: IRide = { ...this.form.value };
+
+    ride.customer = this.form.value.customer.id;
+    ride.driver = this.form.value.driver.id;
+    ride.rideType = this.form.value.rideType.id;
+    const actionSaveOrUpdate = this.currentRide ? this.rideService.update(ride, this.currentRide.id) :
+      this.rideService.create(ride);
+    actionSaveOrUpdate.subscribe(newRide => this.router.navigate(['calendar/ride/', newRide.id]));
+  }
+
+  calculer(parms: any) {
+    this.googleService.
+      estimateRide(
+        this.form.controls.arrivalAddress.value,
+        this.form.controls.departureAdress.value,
+        this.form.controls.departureDate.value
+      ).subscribe(data => {
+        this.estimationRide = data;
+        this.form.value.estimate = this.estimationRide;
+      });
+  }
+
+
+  deleteRide() {
+    this.rideService.delete(this.currentRide.id).subscribe(this.router.navigate['calendar']);
   }
 
 }

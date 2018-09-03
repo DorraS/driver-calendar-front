@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '@core/services/auth/auth.service';
 import { NotificationService } from '@core/services/notification/notification.service';
 
@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(public formBuilder: FormBuilder,
     private authService: AuthService,
     private notificationServ: NotificationService,
-    private router: Router) {
+    private router: Router,
+    protected route: ActivatedRoute) {
 
     this.loginForm = formBuilder.group({
       'email': ['', Validators.compose([Validators.required, Validators.email])],
@@ -39,19 +40,25 @@ export class LoginComponent implements OnInit {
     this.current = this.value.join(' | ');
   }
 
-  changed(data: {value: string[]}) {
+  changed(data: { value: string[] }) {
     this.current = data.value.join(' | ');
     console.log(data);
   }
 
 
   login(data: any) {
-    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe();
+    this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(() => {
+      // get return url from route parameters or default to '/'
+      const queryParams: any = this.route.snapshot.queryParams;
+      const returnUrl = queryParams.returnUrl as string || '/';
+      this.router.navigateByUrl(returnUrl);
+    }
+    );
   }
 
   sendMessage() {
     this.notificationServ.notify({ message: 'test ok', type: 'success' });
-    this.router.navigate(['/ride']);
+    this.router.navigate(['/']);
   }
 
 }

@@ -1,5 +1,6 @@
-<dc-header></dc-header>
-<router-outlet></router-outlet>
+<dc-header *ngIf="connected"></dc-header>
 
-    
+<div class="container">
+    <router-outlet></router-outlet>
+</div>
 <!-- <dc-footer></dc-footer> -->

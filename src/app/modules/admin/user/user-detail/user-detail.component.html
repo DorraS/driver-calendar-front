@@ -1,4 +1,4 @@
-<form [formGroup]="userForm" (ngSubmit)="createUser()">
+<form *ngIf="userForm" [formGroup]="userForm">
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="ID_INPUT_FIRST_NAME">First name</label>
@@ -30,7 +30,7 @@
           email is required.
         </div>
         <div *ngIf="userForm.get('email').hasError('emailExists')">
-            costumer with this email exist 
+          costumer with this email exist
         </div>
         <div *ngIf="userForm.get('email').hasError('email')">
           check email format
@@ -46,7 +46,8 @@
     <div class="form-group col-md-6">
       <label for="ID_INPUT_PHONE">PHONE Number</label>
       <input type="tel" formControlName="phoneNumber" id="ID_INPUT_PHONE" class="form-control" placeholder="+33....">
-      <div *ngIf="userForm.get('phoneNumber').invalid && (userForm.get('phoneNumber').dirty || userForm.get('phoneNumber').touched)" class="alert alert-danger">
+      <div *ngIf="userForm.get('phoneNumber').invalid && (userForm.get('phoneNumber').dirty || userForm.get('phoneNumber').touched)"
+        class="alert alert-danger">
         <div *ngIf="userForm.get('phoneNumber').hasError('required')">
           phone number is required.
         </div>
@@ -62,36 +63,22 @@
   </div>
   <div class="form-group">
     <label for="ID_INPUT_ADDRESS">Address</label>
-    <input type="text" class="form-control" formControlName="address" id="ID_INPUT_ADDRESS" placeholder="1234 Main St">
+    <input type="text" class="form-control" [formControl]="userForm.controls.address" id="ID_INPUT_ADDRESS" placeholder="1234 Main St" [ngbTypeahead]="searchAdress" [resultFormatter]="formatter" placeholder="1 rue ...., 57000, metz" [inputFormatter]="formatter" >
+  </div>
+  <div class="form-group">
+    <label for="ID_INPUT_ADDRESS">Roles</label>
+    <ng-select [items]="roles$ | async" bindLabel="label" appendTo="body"  labelForId="roles_id" [multiple]="true"
+      placeholder="Select differents roles for user" clearAllText="Clear" formControlName="roles">
+    </ng-select>
+  </div>
+  <div class="form-group">
+    <label for="ID_INPUT_ADDRESS">Rights</label>
+    <ng-select [items]="rights$ | async" bindLabel="label" appendTo="body"  labelForId="rights_ids" [multiple]="true"
+      placeholder="Select differents rights for user" clearAllText="Clear" formControlName="rights">
+    </ng-select>
   </div>
 
-  <!-- <div class="form-group">
-    <label for="ID_INPUT_ADDRESS_2">Address 2</label>
-    <input type="text" formControlName="address2" class="form-control" id="ID_INPUT_ADDRESS_2" placeholder="Apartment, studio, or floor">
-  </div> -->
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="ID_INPUT_CITY">City</label>
-      <input type="text" class="form-control" formControlName="city" id="ID_INPUT_CITY">
-    </div>
-    <div class="form-group col-md-6">
-      <label for="ID_INPUT_ZIP">Zip</label>
-      <input type="text" class="form-control" formControlName="zip" id="ID_INPUT_ZIP">
-    </div>
-  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid" (click)="createUser()"> Save user </button>
+  <button type="submit" class="btn btn-primary" (click)="deleteUser()">Delete user </button>
 
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-    <label class="form-check-label" for="inlineCheckbox1">1</label>
-  </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-    <label class="form-check-label" for="inlineCheckbox2">2</label>
-  </div>
-  <div class="form-check form-check-inline">
-    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3" disabled>
-    <label class="form-check-label" for="inlineCheckbox3">3 (disabled)</label>
-  </div>
-  
-  <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid"> Save user </button>
 </form>

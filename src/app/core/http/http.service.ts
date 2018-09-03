@@ -15,18 +15,18 @@ export class HttpService<T, ID> {
   actionUrl: string;
 
   constructor(public http: HttpClient, endPoint: string) {
-    this.actionUrl = HOST  + endPoint + '/';
+    this.actionUrl = HOST + endPoint + '/';
   }
 
 
   getAll(options?: { page?: number, limit?: number, order?: any, where?: any }): Observable<T[]> {
-    const params = new HttpParams();
+    let params;
 
     // if(page)
     if (options && options.where) {
-      params.set('where', options.where);
+      params = {'where': JSON.stringify(options.where)};
     }
-
+     console.log(params);
     return this.http.get<T[]>(this.actionUrl, { params });
   }
 
@@ -39,11 +39,12 @@ export class HttpService<T, ID> {
   }
 
   create(item: T): Observable<T> {
-    console.log('item', item);
+    Object.keys(item).forEach(key => item[key] === null && delete item[key]);
     return this.http.post<T>(this.actionUrl, item);
   }
 
   update(itemToUpdate: T, id: ID): Observable<T> {
-    return this.http.put<T>(this.actionUrl + id, itemToUpdate);
+    Object.keys(itemToUpdate).forEach(key => itemToUpdate[key] === null && delete itemToUpdate[key]);
+    return this.http.patch<T>(this.actionUrl + id, itemToUpdate);
   }
 }
