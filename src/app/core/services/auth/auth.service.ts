@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -13,12 +13,15 @@ export class AuthService {
   private user: any;
   private conneted$ =  new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { 
+    console.log("creation du service auth");
+  }
 
   login(login, password): Observable<any> {
     return this.http.post<any>(this.authUrl, { 'password': password, 'username': login })
       .pipe(
         map(data => {
+          console.log(data);
           localStorage.setItem('currUser', JSON.stringify(data));
           this.user = data;
            this.conneted$.next(true);
@@ -39,6 +42,3 @@ export class AuthService {
     return this.conneted$.asObservable();
   }
 }
-
-
-export const AUTH_PROVIDERS = [{ provide: AuthService, useClass: AuthService }];

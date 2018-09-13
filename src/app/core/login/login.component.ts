@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
 
 
   login(data: any) {
+    console.log('test login');
     this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(() => {
       // get return url from route parameters or default to '/'
       const queryParams: any = this.route.snapshot.queryParams;
