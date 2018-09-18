@@ -5,27 +5,30 @@ import { LoginComponent } from '@core/login/login.component';
 
 const routes: Routes = [
   {
+    // lazy loading admin module
     path: 'admin',
     loadChildren: './modules/admin/admin.module#AdminModule',
     canActivate: [AuthGuard]
   },
   {
+    // lazy loading calendar module
     path: 'calendar',
     loadChildren: './modules/driver-calendar/diver-calendar.module#DiverCalendarModule',
     canActivate: [AuthGuard]
   },
+
   {
+  // authentification route
   path: 'login',
    component: LoginComponent
   },
   // otherwise redirect to home
-  { path: 'home', redirectTo: 'calendar' },
-  { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: '**', resolve: {}, redirectTo: 'home' },
+  { path: '', pathMatch: 'full', redirectTo: 'calendar' },
+  { path: '**', redirectTo: 'calendar' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true, enableTracing: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -17,6 +17,7 @@ export interface IUser extends IDriverModelCommon {
     zip?: number;
     roles?: IRole[];
     rights?: IRight[];
+    color?: string;
 }
 
 export const USER_TABLE_TEMPLATE: any[] = [
@@ -70,6 +71,7 @@ export function getUserConfig(user: IUser, service: UserService, creation: boole
         address: [user && user.address],
         roles: [user && user.roles || [], Validators.required],
         rights: [user && user.rights || []],
+        color: [user && user.color || []],
     };
 }
 

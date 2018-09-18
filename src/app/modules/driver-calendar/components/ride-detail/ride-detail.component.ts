@@ -84,7 +84,7 @@ export class RideDetailComponent implements OnInit {
     ride.rideType = this.form.value.rideType.id;
     const actionSaveOrUpdate = this.currentRide ? this.rideService.update(ride, this.currentRide.id) :
       this.rideService.create(ride);
-    actionSaveOrUpdate.subscribe(newRide => this.router.navigate(['calendar/ride/', newRide.id]));
+    actionSaveOrUpdate.subscribe(newRide => this.router.navigate(['calendar']));
   }
 
   calculer(parms: any) {

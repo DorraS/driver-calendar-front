@@ -8,7 +8,7 @@ import { NotificationService } from '@core/services/notification/notification.se
   // tslint:disable-next-line:component-selector
   selector: 'login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.sass']
 })
 export class LoginComponent implements OnInit {
 

@@ -18,7 +18,8 @@ import {
 import {
   CalendarEvent,
   CalendarEventAction,
-  CalendarEventTimesChangedEvent
+  CalendarEventTimesChangedEvent,
+  CalendarMonthViewDay
 } from 'angular-calendar';
 import { Subject, Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -26,8 +27,8 @@ import { RideService } from '@core/services/ride/ride.service';
 import { map } from 'rxjs/operators';
 import { IRide } from '@core/interfaces/ride';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { duration } from 'moment';
 import * as moment from 'moment';
+import { IUser } from '@core/interfaces/user.interface';
 
 const colors: any = {
   red: {
@@ -93,87 +94,47 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
 
-     this.fetchEvents();
+    this.fetchEvents();
+  }
+
+  beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
+    body.forEach(cell => {
+      const groups: any = {};
+      cell.events.forEach((event: CalendarEvent<{ driver: IUser }>) => {
+        console.log(event.meta);
+        groups[event.meta.driver.id] = groups[event.meta.driver.id] || [];
+        groups[event.meta.driver.id].push(event);
+      });
+      console.log(Object.entries(groups));
+      cell['eventGroups'] = Object.entries(groups);
+    });
   }
 
   fetchEvents(): void {
-     this.events$ = this.rideSerive.getAll().pipe(map(rideTmp => {
+    this.events$ = this.rideSerive.getAll().pipe(map(rideTmp => {
       return rideTmp.map(ride => {
-        console.log(moment('2018-09-30').add( 19023 / 3600 , 'hours'));
-        const result =  moment(new Date()).add(19023 / 3600, 'hours');
-         // add(new Date(2014, 6, 10, 12, 45, 0), new Date(ride.estimate.duration.value * 1000).toISOString().substr(11, 8);
-        console.log(result);
         const event: CalendarEvent<IRide> = {} as CalendarEvent<IRide>;
-       // event.draggable = true;
-        event.id =  ride.id;
-        event.title = ` client  : ${ride.customer.firstName}  ${ride.customer.firstName} `;
+        event.id = ride.id;
+        event.title = ` client  : ${ride.customer.firstName}  ${ride.customer.lastName} `;
+       console.log('color', ride.driver);
+        event.color = {
+          primary: '#FAE3E3',
+          secondary: ride.driver.color
+        },
+       // event.actions = this.actions;
+          // tslint:disable-next-line:max-line-length
+        event.start = new Date(ride.departureDate);
+        const endEvent = moment(event.start).add(ride.estimate.duration.value / 3600, 'hours');
+        const remainder = 30 - (endEvent.minute() % 30);
+        event.end =  moment(endEvent).add(remainder, 'minutes').toDate();
 
         // tslint:disable-next-line:max-line-length
-        event.start =  new Date(ride.departureDate);
-        event.end =  moment(event.start).add(ride.estimate.duration.value / 3600, 'hours').toDate();
-        // tslint:disable-next-line:max-line-length
-       // event.resizable = {beforeStart: true, afterEnd: true};
+        // event.resizable = {beforeStart: true, afterEnd: true};
         event.meta = ride;
         console.log('test ride', event);
         return event;
       });
     }));
-  }
-
-  fetchEvents_test(): void {
-    const getStart: any = {
-      month: startOfMonth,
-      week: startOfWeek,
-      day: startOfDay
-    }[this.view];
-
-    const getEnd: any = {
-      month: endOfMonth,
-      week: endOfWeek,
-      day: endOfDay
-    }[this.view];
-
-    const params = new HttpParams()
-      .set(
-        'primary_release_date.gte',
-        format(getStart(this.viewDate), 'YYYY-MM-DD')
-      )
-      .set(
-        'primary_release_date.lte',
-        format(getEnd(this.viewDate), 'YYYY-MM-DD')
-      )
-      .set('api_key', '0ec33936a68018857d727958dca1424f');
-
-    this.events$ = this.http
-      .get('https://api.themoviedb.org/3/discover/movie', { params })
-      .pipe(
-        map(({ results }: { results: any[] }) => {
-          return results.map((film: any) => {
-            return {
-              title: film.title,
-              start: new Date(film.release_date),
-              color: colors.yellow,
-              meta: {
-                film
-              }
-            };
-          });
-        })
-      );
-  }
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      this.viewDate = date;
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-    }
   }
 
   eventTimesChanged({

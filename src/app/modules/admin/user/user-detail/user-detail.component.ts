@@ -54,6 +54,7 @@ export class UserDetailComponent implements OnInit {
     console.log(this.userForm);
     if (this.userForm.valid && this.userForm.value) {
 
+      console.log(this.userForm);
       const userTmp: IUser = { ...this.userForm }.value;
 
       userTmp.rights = this.userForm.value.rights ? this.userForm.value.rights.map(right =>

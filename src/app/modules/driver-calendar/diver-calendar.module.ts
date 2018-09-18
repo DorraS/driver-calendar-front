@@ -16,6 +16,7 @@ import { SharedModule } from '@shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CalendarHeaderComponent } from './components/calendar-header/calendar-header.component';
+import { RideCalendarTemplateComponent } from '@modules/driver-calendar/components/ride-calendar-template/ride-calendar-template.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { CalendarHeaderComponent } from './components/calendar-header/calendar-h
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot()
   ],
-  declarations: [CalendarComponent, RideDetailComponent, DriverCalendarComponent, RideItemComponent, CalendarHeaderComponent],
+  declarations: [CalendarComponent, RideDetailComponent,
+     DriverCalendarComponent, RideItemComponent, CalendarHeaderComponent, RideCalendarTemplateComponent],
   exports: [CalendarComponent, RideDetailComponent, DriverCalendarComponent, RideItemComponent],
   providers: [ RideResolver]
 })
