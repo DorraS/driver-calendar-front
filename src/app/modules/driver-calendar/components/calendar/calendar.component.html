@@ -1,5 +1,4 @@
-<dc-calendar-header [(view)]="view" [(viewDate)]="viewDate" (viewDateChange)="fetchEvents()" (viewChange)="fetchEvents()">
-</dc-calendar-header>
+
 
 <ng-template #loading>
   <div class="text-center">
@@ -10,80 +9,75 @@
 
 <ng-template #customEvent let-dayEvent="dayEvent">
   <div class="cal-cell-top">
-    <span>{{dayEvent.event.meta.status |json}}</span>
+    <span>{{dayEvent.event.meta.status | json}}</span>
   </div>
 </ng-template>
 
 <ng-template #title let-event="event">
-      <div class="container text-dark">
-          <div class="row">
-            <span><small><i class="far fa-clock mr-2 "></i> {{event.meta.departureDate|date: 'shortTime'}}</small></span>
-          </div>
-          <div class="row w-25">
-            <span><i class="far fa-user mr-2"></i>{{event.meta.customer.firstName+' '+event.meta.customer.phoneNumber}}</span>
-          </div>
-          <div class="row">
-              <span class="text-truncate mr-2">
-                <i class="fas fa-map-marker-alt mr-2"></i>{{event.meta.arrivalAddress.description}}
-              </span>
-          </div>
-      </div>
-</ng-template>
-<ng-template #customCellTemplate let-day="day" let-locale="locale">
-    <div class="cal-cell-top">
-      <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
-      <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+  <div class="container text-dark">
+    <div class="row">
+      <span><small><i class="far fa-clock mr-2 "></i> {{event.meta.departureDate|date: 'shortTime'}}</small></span>
     </div>
-    <div class="cell-totals">
-      <span
-        *ngFor="let group of day.eventGroups"
-        [style.background-color]="group[1][0].color.secondary"
-        class="badge">
-        {{ group[1].length }}
+    <div class="row w-25">
+      <span><i class="far fa-user mr-2"></i>{{event.meta.customer.firstName+' '+event.meta.customer.phoneNumber}}</span>
+    </div>
+    <div class="row">
+      <span class="text-truncate mr-2">
+        <i class="fas fa-map-marker-alt mr-2"></i>{{event.meta.arrivalAddress.description}}
       </span>
     </div>
-  </ng-template>
+  </div>
+</ng-template>
 
-<!-- <ng-template #customCellTemplate let-day="day" let-locale="locale">
-
+<ng-template #customCellTemplate let-day="day" let-locale="locale">
   <div class="cal-cell-top">
-    <span>{{day | json }}</span>
     <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
     <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
   </div>
-  <small style="margin: 5px">There are {{ day.events.length }} events on this day</small>
-</ng-template> -->
+  <div class="cell-totals">
+    <span *ngFor="let group of day.eventGroups" [style.background-color]="group[1][0].color.secondary" class="badge">
+      {{ group[1].length }}
+    </span>
+  </div>
+</ng-template>
 
+<!-- calender headr -->
+<dc-calendar-header 
+  [(view)]="view" 
+  [(viewDate)]="viewDate" 
+  (viewDateChange)="fetchEvents()" 
+  (viewChange)="fetchEvents()">
+</dc-calendar-header>
 
-<div class="m-2" *ngIf="events$ | async; else loading; let events">
-  <div [ngSwitch]="view">
+<div class="m-2 dc-container-calendar"  *ngIf="events$ | async; else loading; let events">
+  <div   [ngSwitch]="view">
+    <!-- month view-->
     <mwl-calendar-month-view *ngSwitchCase="'month'" 
-      [viewDate]="viewDate" 
-      [events]="events" 
+      [viewDate]="viewDate" [events]="events" 
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)" 
       (dayClicked)="viewDate = $event.day.date; view = 'day'"
-      [cellTemplate]="customCellTemplate"
-      (beforeViewRender)="beforeMonthViewRender($event)"
-      >
+      [cellTemplate]="customCellTemplate" 
+      (beforeViewRender)="beforeMonthViewRender($event)">
     </mwl-calendar-month-view>
-    <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" (eventClicked)="handleEvent('Clicked', $event.event)"
-      (eventTimesChanged)="eventTimesChanged($event)" (dayHeaderClicked)="viewDate = $event.day.date; view = 'day'">
+     <!-- week view-->
+    <mwl-calendar-week-view *ngSwitchCase="'week'" 
+    [viewDate]="viewDate" [events]="events" 
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)" 
+      (dayHeaderClicked)="viewDate = $event.day.date; view = 'day'">
     </mwl-calendar-week-view>
+     <!-- day view-->
     <mwl-calendar-day-view *ngSwitchCase="'day'" 
-      [viewDate]="viewDate" 
-      [events]="events" 
+      [viewDate]="viewDate" [events]="events" 
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)" 
-      [eventTitleTemplate]="title"
+      [eventTitleTemplate]="title" 
       [hourSegments]="4">
     </mwl-calendar-day-view>
   </div>
 </div>
 
-
-<h3>
-  <a class="btn btn-primary pull-right" [routerLink]="['./ride/create']" routerLinkActive>
-    Add new
-  </a>
-</h3>
+<div class="row">
+    <button type="submit" class="btn button-float-right" (click)="createNewRide()" placement="left" ><i class="fas fa-plus"></i></button>
+</div>

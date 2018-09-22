@@ -1,56 +1,56 @@
-<form [formGroup]="form" novalidate>
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="ID_INPUT_DEPART_ADRESS">depart Address</label>
-      <input type="text" class="form-control" formControlName="departureAdress" id="ID_INPUT_DEPART_ADRESS" [ngbTypeahead]="search"
-        [resultFormatter]="formatter" placeholder="1 rue ...., 57000, metz" [inputFormatter]="formatter" required/>
-    </div>
-    <div class="form-group col-md-6">
-      <label for="ID_INPUT_ARRIVAL_ADRESS">arrival address</label>
-      <input type="text" class="form-control" formControlName="arrivalAddress" id="ID_INPUT_ARRIVAL_ADRESS" [ngbTypeahead]="search"
-        [resultFormatter]="formatter" placeholder="1 rue ...., 57000, metz" [inputFormatter]="formatter" required/>
-    </div>
-    <div class="form-group col-md-6">
-      <label for="ID_INPUT_CUSTOMER">Customer</label>
-      <input type="text" class="form-control" formControlName="customer" id="ID_INPUT_CUSTOMER" [ngbTypeahead]="searchUser" [resultFormatter]="formatterUser"
-        placeholder="search Costomer by Last Name  Or by phone number ou by secity number or email " [inputFormatter]="formatterUser"
-        required />
-    </div>
-    <div class="form-group col-md-6">
-      <label for="ID_INPUT_CUSTOMER">Driver</label>
-      <input type="text" class="form-control" formControlName="driver" id="ID_INPUT_DRIVER" [ngbTypeahead]="searchUser" [resultFormatter]="formatterUser"
-        placeholder="search Costomer by Last Name  Or by phone number ou by secity number or email " [inputFormatter]="formatterUser"
-      />
-    </div>
-    <div class="form-group col-md-6">
-      <label for="ID_INPUT_DEART_DATE">depart date</label>
-      <input type="datetime-local" class="form-control" formControlName="departureDate" id="ID_INPUT_DEART_DATE" required>
-    </div>
-    <div class="form-group">
-      <label for="ID_RIDE_TYPE">Type Ride</label>
-      <ng-select [items]="typeRide$ | async" bindLabel="label" appendTo="body"  labelForId="ID_RIDE_TYPE"
-        placeholder="Select the type of the ride" clearAllText="Clear" formControlName="rideType">
-      </ng-select>
-    </div>
+<div class="card">
+  <div class="card-body">
+    <form [formGroup]="form" novalidate>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" formControlName="departureAdress" id="ID_INPUT_DEPART_ADRESS"
+            [ngbTypeahead]="search" [resultFormatter]="formatter" placeholder="Depart Address"
+            [inputFormatter]="formatter" required />
+        </div>
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" formControlName="arrivalAddress" id="ID_INPUT_ARRIVAL_ADRESS"
+            [ngbTypeahead]="search" [resultFormatter]="formatter" placeholder="Arrival address"
+            [inputFormatter]="formatter" required />
+        </div>
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" formControlName="customer" id="ID_INPUT_CUSTOMER" [ngbTypeahead]="searchUser"
+            [resultFormatter]="formatterUser" placeholder="search Costomer by Last Name  Or by phone number ou by secity number or email "
+            [inputFormatter]="formatterUser" required />
+        </div>
+        <div class="form-group col-md-6">
+          <input type="text" class="form-control" formControlName="driver" id="ID_INPUT_DRIVER" [ngbTypeahead]="searchUser"
+            [resultFormatter]="formatterUser" placeholder="search Costomer by Last Name  Or by phone number ou by secity number or email "
+            [inputFormatter]="formatterUser" />
+        </div>
+        <div class="form-group col-md-6">
+          <input type="datetime-local" class="form-control" formControlName="departureDate" id="ID_INPUT_DEART_DATE" placeholder="Depart date"
+            required>
+        </div>
+        <div class="form-group">
+          <ng-select [items]="typeRide$ | async" bindLabel="label" appendTo="body" labelForId="ID_RIDE_TYPE"
+            placeholder="Select the type of the ride" clearAllText="Clear" formControlName="rideType">
+          </ng-select>
+        </div>
+      </div>
+      <div class="form-group">
+        <textarea class="form-control" id="TEXT_AREA_COMMENTAIRE" rows="3" formControlName="comment" placeholder="comment"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" (click)="calculer(form)">
+        calculer
+      </button>
+
+      <div *ngIf="estimationRide" class="row">
+        <div class="col-4">
+          <p>distance: {{estimationRide.distance.text}}</p>
+        </div>
+        <div class="col-4">
+          <p>duration: {{estimationRide.duration.text}}</p>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid" (click)="submit()"> Save Ride </button>
+
+    </form>
   </div>
-  <div class="form-group">
-    <label for="TEXT_AREA_COMMENTAIRE">commentaire</label>
-    <textarea class="form-control" id="TEXT_AREA_COMMENTAIRE" rows="3"  formControlName="comment"></textarea>
-  </div>
-
-  <button type="submit" class="btn btn-primary" (click)="calculer(form)">
-    calculer
-  </button>
-
-  <div *ngIf="estimationRide" class="row">
-    <div class="col-4">
-      <p>distance: {{estimationRide.distance.text}}</p>
-    </div>
-    <div class="col-4">
-      <p>duration: {{estimationRide.duration.text}}</p>
-    </div>
-  </div>
-
-  <button type="submit" class="btn btn-primary" [disabled]="form.invalid" (click)="submit()" > Save Ride </button>
-
-</form>
+</div>

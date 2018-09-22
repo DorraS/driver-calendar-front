@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { IUser, USER_TABLE_TEMPLATE } from '@core/interfaces/user.interface';
 import { UserService } from '@core/services/user/user.service';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { ignoreElements } from 'rxjs/operators';
 
 @Component({
   selector: 'dc-user-list',
@@ -33,5 +34,6 @@ export class UserListComponent implements OnInit {
   createNewUser() {
     this._router.navigate(['admin/user/create']);
   }
+
 
 }

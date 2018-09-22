@@ -22,12 +22,10 @@ export interface IUser extends IDriverModelCommon {
 
 export const USER_TABLE_TEMPLATE: any[] = [
     { key: 'firstName', title: 'First name' },
-    { key: 'lastName', title: 'Lasr name' },
+    { key: 'lastName', title: 'Last name' },
     { key: 'email', title: 'Email Adress' },
     { key: 'phoneNumber', title: 'Phone number' },
     { key: 'socialSecurityNumber', title: 'Social Security Number' },
-    { key: 'createdA', title: 'Created at' },
-    { key: 'updatedAt', title: 'Modified at' }
 ];
 
 export type AsyncValidatorFn = (c: AbstractControl) => Observable<ValidationErrors | null>;

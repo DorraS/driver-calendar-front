@@ -1,2 +1,50 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/angular-calendar/css/angular-calendar.css";
+@import "node_modules/@ng-select/ng-select/themes/default.theme.css"
+@import "node_modules/angular-calendar/css/angular-calendar.css"
+@import "node_modules/bootstrap/scss/bootstrap.scss"
+
+$path-asset-image-path: '../../assets/images/background.jpg'
+
+html body 
+    height: 100%
+    
+body
+    background: url('./assets/images/background.jpg') no-repeat center fixed
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+    font-family: Bodoni MT !important
+
+.card 
+    @extend .shadow-lg
+    @extend .rounded
+    
+.card-body
+    background: #ececec
+
+
+/* button float right */
+.button-float-right
+    @extend .rounded-circle 
+    background: none
+    margin: 0
+    position: fixed
+    z-index: 100
+    display: none
+    text-decoration: none
+    color: #ffffff
+    background-color: #db4437 !important
+    box-sizing: content-box
+    bottom: 2%
+    right: 5%
+    width: 3em
+    height: 3em
+// form input invalid
+.ng-invalid
+    @extend .is-invalid
+.ng-valid
+    @extend .is-valid
+
+.ng-select-container
+    @extend .form-control

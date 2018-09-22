@@ -31,8 +31,14 @@ import { RideCalendarTemplateComponent } from '@modules/driver-calendar/componen
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot()
   ],
-  declarations: [CalendarComponent, RideDetailComponent,
-     DriverCalendarComponent, RideItemComponent, CalendarHeaderComponent, RideCalendarTemplateComponent],
+  declarations: [
+    CalendarComponent,
+    RideDetailComponent,
+    DriverCalendarComponent,
+    RideItemComponent,
+    CalendarHeaderComponent,
+    RideCalendarTemplateComponent,
+  ],
   exports: [CalendarComponent, RideDetailComponent, DriverCalendarComponent, RideItemComponent],
   providers: [ RideResolver]
 })

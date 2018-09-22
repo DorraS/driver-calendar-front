@@ -29,21 +29,7 @@ import { IRide } from '@core/interfaces/ride';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import * as moment from 'moment';
 import { IUser } from '@core/interfaces/user.interface';
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -52,8 +38,6 @@ const colors: any = {
   styleUrls: ['./calendar.component.sass']
 })
 export class CalendarComponent implements OnInit {
-
-
 
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
@@ -90,10 +74,11 @@ export class CalendarComponent implements OnInit {
 
   activeDayIsOpen = true;
 
-  constructor(private modal: NgbModal, private rideSerive: RideService, private http: HttpClient) { }
+  constructor(private modal: NgbModal,
+              private rideSerive: RideService,
+              private router: Router) { }
 
   ngOnInit(): void {
-
     this.fetchEvents();
   }
 
@@ -155,6 +140,10 @@ export class CalendarComponent implements OnInit {
 
   addEvent(): void {
     this.refresh.next();
+  }
+
+  createNewRide() {
+    this.router.navigate(['calendar/ride/create']);
   }
 
 }
