@@ -16,12 +16,12 @@
 <ng-template #title let-event="event">
   <div class="container text-dark">
     <div class="row">
-      <span><small><i class="far fa-clock mr-2 "></i> {{event.meta.departureDate|date: 'shortTime'}}</small></span>
+      <span class><small><i class="far fa-clock"></i> {{event.meta.departureDate|date: 'shortTime'}}</small></span>
     </div>
-    <div class="row w-25">
+    <div class="row h-25">
       <span><i class="far fa-user mr-2"></i>{{event.meta.customer.firstName+' '+event.meta.customer.phoneNumber}}</span>
     </div>
-    <div class="row">
+    <div class="row h-25">
       <span class="text-truncate mr-2">
         <i class="fas fa-map-marker-alt mr-2"></i>{{event.meta.arrivalAddress.description}}
       </span>

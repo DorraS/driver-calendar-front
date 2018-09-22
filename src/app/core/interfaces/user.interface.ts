@@ -60,8 +60,8 @@ export function existingPhoneNumberValidator(userService: UserService, userId: n
 export function getUserConfig(user: IUser, service: UserService, creation: boolean = true) {
     console.log('form user', user);
     return {
-        firstName: [user && user.firstName, [Validators.required, Validators.minLength(4)]],
-        lastName: [user && user.lastName, [Validators.required, Validators.minLength(4)]],
+        firstName: [user && user.firstName, [Validators.required]],
+        lastName: [user && user.lastName, [Validators.required]],
         email: [user && user.email, [Validators.required, Validators.email], existingEmailValidator(service, user && user.id )],
         password: [user && user.password || undefined ],
         phoneNumber: [user && user.phoneNumber , Validators.required, existingPhoneNumberValidator(service, user && user.id)],
@@ -69,7 +69,7 @@ export function getUserConfig(user: IUser, service: UserService, creation: boole
         address: [user && user.address],
         roles: [user && user.roles || [], Validators.required],
         rights: [user && user.rights || []],
-        color: [user && user.color || []],
+        color: [user && user.color],
     };
 }
 

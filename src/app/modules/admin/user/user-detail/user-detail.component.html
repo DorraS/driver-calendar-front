@@ -7,19 +7,22 @@
           <input type="text" class="form-control" 
             formControlName="firstName" 
             id="ID_INPUT_FIRST_NAME" 
-            placeholder="First Name">
+            placeholder="Prénom">
           <div  class="invalid-feedback"
           *ngIf="userForm.get('firstName').invalid && (userForm.get('firstName').dirty || userForm.get('firstName').touched)">
             <div *ngIf="userForm.get('firstName').hasError('required')">
-              Name is required.
-            </div>
-            <div *ngIf="userForm.get('firstName').hasError('minlength')">
-              Name must be at least 4 characters long.
+              Prénom est obligatoire
             </div>
           </div>
         </div>
         <div class="form-group col-md-6">
-          <input type="text" class="form-control" formControlName="lastName" id="ID_INPUT_LAST_NAME" placeholder="Last Name">
+          <input type="text" class="form-control" formControlName="lastName" id="ID_INPUT_LAST_NAME" placeholder="Nom">
+          <div  class="invalid-feedback"
+          *ngIf="userForm.get('lastName').invalid && (userForm.get('lastName').dirty || userForm.get('lastName').touched)">
+            <div *ngIf="userForm.get('lastName').hasError('required')">
+              Nom est obligatoire
+            </div>
+          </div>
         </div>
       </div>
       <!-- email -->
@@ -30,23 +33,23 @@
             *ngIf="userForm.get('email').invalid && (userForm.get('email').dirty || userForm.get('email').touched)"
           >
             <div *ngIf="userForm.get('email').hasError('required')">
-              email is required.
+              email est obligatoire.
             </div>
             <div *ngIf="userForm.get('email').hasError('emailExists')">
-              costumer with this email exist
+               l'adresse mail existe dèja
             </div>
             <div *ngIf="userForm.get('email').hasError('email')">
-              check email format
+               format email incorrect
             </div>
           </div>
         </div>
         <div class="form-group col-md-6">
-          <input type="password" formControlName="password" class="form-control" id="ID_INPUT_PWD" placeholder="Password">
+          <input type="password" formControlName="password" class="form-control" id="ID_INPUT_PWD" placeholder="mot de passe">
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
-          <input type="tel" formControlName="phoneNumber" id="ID_INPUT_PHONE" class="form-control" placeholder="+33....">
+          <input type="tel" formControlName="phoneNumber" id="ID_INPUT_PHONE" class="form-control" placeholder="téléphone Mobile">
           <div *ngIf="userForm.get('phoneNumber').invalid && (userForm.get('phoneNumber').dirty || userForm.get('phoneNumber').touched)"
             class="invalid-feedback">
             <div *ngIf="userForm.get('phoneNumber').hasError('required')">
@@ -59,38 +62,38 @@
         </div>
         <div class="form-group col-md-6">
           <input type="number" formControlName="socialSecurityNumber" class="form-control" id="ID_INPUT_SECURTY_NUM"
-            placeholder="social Security Number">
+            placeholder="N° sécurité sociale">
         </div>
       </div>
       <div class="form-group">
         <input type="text" class="form-control" formControlName="address" id="ID_INPUT_ADDRESS" [ngbTypeahead]="searchAdress"
-          [resultFormatter]="formatter" placeholder="1 rue ...., 57000, metz" [inputFormatter]="formatter">
+          [resultFormatter]="formatter" placeholder="Adresse" [inputFormatter]="formatter">
       </div>
       <div class="form-group">
         <ng-select [items]="roles$ | async" bindLabel="label" appendTo="body" labelForId="roles_id" [multiple]="true"
-          placeholder="Select differents roles for user" clearAllText="Clear" formControlName="roles">
+          placeholder="Rôles utilisateur" clearAllText="Clear" formControlName="roles">
         </ng-select>
         <div *ngIf="userForm.get('roles').invalid && (userForm.get('roles').dirty || userForm.get('roles').touched)"
             class="invalid-feedback">
             <div *ngIf="userForm.get('roles').hasError('required')">
-                choose at least one role
+                choisir au moins 1 rôle
             </div>
           </div>
       </div>
 
       <div class="form-group">
         <ng-select [items]="rights$ | async" bindLabel="label" appendTo="body" labelForId="rights_ids" [multiple]="true"
-          placeholder="Select differents rights for user" clearAllText="Clear" formControlName="rights">
+          placeholder="Droits d'accès utilisateur" clearAllText="Clear" formControlName="rights">
         </ng-select>
       </div>
 
       <div class="form-group">
-        <input type="color" class="form-control col-4" [formControl]="userForm.controls.color" value="#ffffff" id="ID_Color">
+        <input type="color" class="form-control col-4" formControlName="color" value="#ffffff" id="ID_Color">
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid" (click)="createUser()"> Save user
+      <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid" (click)="createUser()">Enregister
       </button>
-      <button type="submit" class="btn btn-primary" (click)="deleteUser()">Delete user </button>
+      <button type="submit" class="btn btn-primary" (click)="deleteUser()">Supprimer</button>
 
     </form>
   </div>

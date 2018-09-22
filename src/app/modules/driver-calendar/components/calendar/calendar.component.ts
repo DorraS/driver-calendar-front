@@ -101,22 +101,16 @@ export class CalendarComponent implements OnInit {
         const event: CalendarEvent<IRide> = {} as CalendarEvent<IRide>;
         event.id = ride.id;
         event.title = ` client  : ${ride.customer.firstName}  ${ride.customer.lastName} `;
-       console.log('color', ride.driver);
         event.color = {
           primary: '#FAE3E3',
           secondary: ride.driver.color
         },
-       // event.actions = this.actions;
-          // tslint:disable-next-line:max-line-length
         event.start = new Date(ride.departureDate);
         const endEvent = moment(event.start).add(ride.estimate.duration.value / 3600, 'hours');
         const remainder = 30 - (endEvent.minute() % 30);
         event.end =  moment(endEvent).add(remainder, 'minutes').toDate();
-
-        // tslint:disable-next-line:max-line-length
-        // event.resizable = {beforeStart: true, afterEnd: true};
         event.meta = ride;
-        console.log('test ride', event);
+        event.cssClass = 'cal-event-costum';
         return event;
       });
     }));

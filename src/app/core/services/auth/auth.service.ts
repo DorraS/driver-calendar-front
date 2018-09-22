@@ -13,8 +13,7 @@ export class AuthService {
   private user: any;
   private conneted$ =  new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router) { 
-    console.log("creation du service auth");
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   login(login, password): Observable<any> {
@@ -29,7 +28,7 @@ export class AuthService {
         }),
         // tslint:disable-next-line:no-shadowed-variable
         catchError(err => {
-          throw new Error('problem d\'authentification');
+          throw new Error('Authentification failed : Email or password incorrect!');
         })
       );
   }

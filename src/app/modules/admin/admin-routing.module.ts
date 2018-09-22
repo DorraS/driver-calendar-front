@@ -22,11 +22,9 @@ const routes: Routes = [{
             {
               path: 'list',
               component: UserListComponent,
-              /* data: {
+               data: {
                   rights: ['DISPLAY_USER_LIST'],
-                  displayItem: ['DISPLAY_USER_INFO'],
-                  editable: ['EDIT_USER_INFO']
-              } */
+              }
             },
             {
               path: 'create',

@@ -17,7 +17,7 @@ export class NotificationService {
   updates: Subject<any> = new Subject<any>();
 
   notification: Subject<any> = new BehaviorSubject(null);
-  // readonly notification$: Observable<any> = this._notification.asObservable();
+
   create: Subject<Notification> = new Subject<Notification>();
   delete: Subject<Number> = new Subject<Number>();
   appRef: any;
@@ -29,8 +29,7 @@ export class NotificationService {
       scan((messages: Notification[],
         operation: IMessagesOperation) => {
         return operation(messages);
-      },
-        initNotifications),
+      }, initNotifications),
       publishReplay(1),
       refCount());
 
@@ -56,10 +55,25 @@ export class NotificationService {
     this.deleteNotification.subscribe(this.delete);
   }
 
-  notify(message) {
+  private notify(message: any) {
     // console.log('notify', message);
     this.newNotification.next(message);
     setTimeout(() => this.appRef.tick(), 500);
+  }
+
+  error(message: string ) {
+    const error: any = {message: message, type: 'danger'};
+     this.notify(error);
+  }
+
+  succes(message: string ) {
+    const succes: any = {message: message, type: 'success'};
+     this.notify(succes);
+  }
+
+  warnig(message: string ) {
+    const succes: any = {message: message, type: 'warning'};
+     this.notify(succes);
   }
 
   deleteNotif(index: number) {

@@ -9,6 +9,7 @@ import { GoogleService, Place } from '@shared/services/google.service';
 import { UserService } from '@core/services/user/user.service';
 import { IUser } from '@core/interfaces/user.interface';
 import { TyperideService } from '@core/services/ride/typeride.service';
+import { NotificationService } from '@shared/directives/notification/notification.service';
 
 @Component({
   selector: 'dc-ride-detail',
@@ -63,6 +64,7 @@ export class RideDetailComponent implements OnInit {
     private userService: UserService,
     private googleService: GoogleService,
     private typeRideSerive: TyperideService,
+    private notifService: NotificationService,
     private route: ActivatedRoute,
     private router: Router) { }
 
@@ -84,7 +86,10 @@ export class RideDetailComponent implements OnInit {
     ride.rideType = this.form.value.rideType.id;
     const actionSaveOrUpdate = this.currentRide ? this.rideService.update(ride, this.currentRide.id) :
       this.rideService.create(ride);
-    actionSaveOrUpdate.subscribe(newRide => this.router.navigate(['calendar']));
+    actionSaveOrUpdate.subscribe((newRide) => {
+      this.notifService.succes(`Ride #${newRide.id} was created`);
+      this.router.navigate(['calendar']);
+    });
   }
 
   calculer(parms: any) {
@@ -101,7 +106,10 @@ export class RideDetailComponent implements OnInit {
 
 
   deleteRide() {
-    this.rideService.delete(this.currentRide.id).subscribe(this.router.navigate['calendar']);
+    this.rideService.delete(this.currentRide.id).subscribe(() => {
+      this.notifService.succes(`Ride #${this.currentRide.id} was deleted`);
+      this.router.navigate(['calendar']);
+    });
   }
 
 }

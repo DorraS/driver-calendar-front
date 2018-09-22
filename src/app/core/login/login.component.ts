@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '@core/services/auth/auth.service';
-import { NotificationService } from '@core/services/notification/notification.service';
+import { NotificationService } from '@shared/directives/notification/notification.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,35 +19,19 @@ export class LoginComponent implements OnInit {
 
   constructor(public formBuilder: FormBuilder,
     private authService: AuthService,
-    private notificationServ: NotificationService,
     private router: Router,
     protected route: ActivatedRoute) {
+  }
 
-    this.loginForm = formBuilder.group({
-      'email': ['', Validators.compose([Validators.required, Validators.email])],
+
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      'email': ['', [Validators.required, Validators.email]],
       'password': ['', Validators.required]
     });
   }
 
-  ngOnInit() {
-
-    this.value = ['multiple2', 'multiple4'];
-
-    this.options = {
-      multiple: true
-    };
-
-    this.current = this.value.join(' | ');
-  }
-
-  changed(data: { value: string[] }) {
-    this.current = data.value.join(' | ');
-    console.log(data);
-  }
-
-
   login(data: any) {
-    console.log('test login');
     this.authService.login(this.loginForm.value.email, this.loginForm.value.password).subscribe(() => {
       // get return url from route parameters or default to '/'
       const queryParams: any = this.route.snapshot.queryParams;
@@ -56,10 +40,4 @@ export class LoginComponent implements OnInit {
     }
     );
   }
-
-  sendMessage() {
-    this.notificationServ.notify({ message: 'test ok', type: 'success' });
-    this.router.navigate(['/']);
-  }
-
 }

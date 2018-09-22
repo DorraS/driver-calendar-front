@@ -7,14 +7,14 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/calendar']" routerLinkActive="router-link-active" >Ride</a>
+        <a class="nav-link" [routerLink]="['/calendar']" routerLinkActive="router-link-active" >Calendrier</a>
       </li>
       <li class="nav-item dropdown" [class.show]="showAdminSubMenu">
         <a class="nav-link dropdown-toggle" (click)="showAdminMenu()" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Administration
         </a>
         <div class="dropdown-menu" [class.show]="showAdminSubMenu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['/admin/user']" routerLinkActive="router-link-active" (click)="showAdminMenu()">Utilisateurs</a>
+          <a class="dropdown-item" [routerLink]="['/admin/user']" routerLinkActive="router-link-active" (click)="showAdminMenu()">Utilisateur</a>
         </div>
       </li>
     </ul>

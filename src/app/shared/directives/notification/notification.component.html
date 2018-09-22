@@ -1,3 +1,15 @@
-<p>
-  notification works!
-</p>
+<div class="container  notification-box ">
+    <ng-template ngFor let-notif [ngForOf]="notification | async" let-i="index">
+        <div class="row mb-2 alert alert-dismissible fade show" role="alert" [ngClass]="['alert-'+notif.type]">
+            <div [ngSwitch]="notif.type">
+                <div *ngSwitchCase="'danger'"> <i class="fas fa-exclamation-triangle mr-1"></i></div>
+                <div *ngSwitchCase="'success'"><i class="fas fa-check mr-1" ></i></div>
+                <div *ngSwitchCase="'warning'"><i class="fas fa-exclamation-circle mr-1"></i></div>
+            </div>
+             {{notif.message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeNotification(i)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </ng-template>
+</div>
