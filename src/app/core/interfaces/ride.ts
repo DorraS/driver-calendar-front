@@ -11,9 +11,9 @@ export interface IRide extends IDriverModelCommon {
 
     estimate: any; // estimation de la cours :  durée, distance ( recupérer de google) et prix calculer en local
 
-    departureAdress: string;
+    departureAdress: any;
 
-    arrivalAddress: string;
+    arrivalAddress: any;
 
     driver: IUser;
 
@@ -42,7 +42,6 @@ export function getRidFormConfig(ride: IRide, service?: RideService) {
         driver: [ride && ride.driver ],
         comment: [ride && ride.comment ],
         estimate: [ride && ride.estimate]
-        // estimatePrice: [ride && ride.estimatePrice],
     };
 }
 
@@ -54,3 +53,15 @@ export let getRideForm = (ride: IRide): FormGroup => {
         )
     );
 };
+
+export const RIDE_PRICE: { [codeRode: string]: {[nj: string]: number}} = {
+    'RIDE_NORMAL_SINGLE' : {
+      'NIGHT' : 1.72,
+      'DAY': 0.86
+    } ,
+    'RIDE_NORMAL_ROUND_TRIP' : {
+      'NIGHT' : 2.43,
+      'DAY': 1.21
+    }
+};
+

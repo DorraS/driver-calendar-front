@@ -12,7 +12,7 @@ export interface Field<KEY, LABEL> {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
-export class AppComponent  implements OnInit {
+export class AppComponent implements OnInit {
 
   title = 'driver-calendar-front';
   connected = false;
@@ -23,7 +23,7 @@ export class AppComponent  implements OnInit {
 
 
   ngOnInit(): void {
-    this.authService.isConnected().subscribe(connected =>  this.connected =  connected);
+    this.authService.userConnected().subscribe(connected => this.connected = connected ? true : false);
   }
 
 

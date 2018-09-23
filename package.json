@@ -31,7 +31,7 @@
     "date-fns": "^1.29.0",
     "flatpickr": "^4.5.1",
     "font-awesome": "^4.7.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "moment": "^2.22.2",
     "rxjs": "^6.0.0",
     "zone.js": "~0.8.26"

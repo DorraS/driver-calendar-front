@@ -11,6 +11,7 @@ import { IUser } from '@core/interfaces/user.interface';
 import { TyperideService } from '@core/services/ride/typeride.service';
 import { NotificationService } from '@shared/directives/notification/notification.service';
 
+
 @Component({
   selector: 'dc-ride-detail',
   templateUrl: './ride-detail.component.html',
@@ -18,10 +19,11 @@ import { NotificationService } from '@shared/directives/notification/notificatio
 })
 export class RideDetailComponent implements OnInit {
 
-  estimationRide;
   form: FormGroup;
   typeRide$: Observable<IRideType[]>;
   currentRide: IRide;
+  showEstimation = true;
+  showLoadingEstimation = false;
 
   /* search adress with google place*/
   search = (text$: Observable<Place>): Observable<Place[]> =>
@@ -72,6 +74,7 @@ export class RideDetailComponent implements OnInit {
     const snapshotRide: any = this.route.parent.snapshot.data.ride;
     this.currentRide = snapshotRide;
     this.form = getRideForm(this.currentRide);
+
     this.typeRide$ = this.typeRideSerive.getAll();
     console.log('form', this.form);
   }
@@ -87,29 +90,35 @@ export class RideDetailComponent implements OnInit {
     const actionSaveOrUpdate = this.currentRide ? this.rideService.update(ride, this.currentRide.id) :
       this.rideService.create(ride);
     actionSaveOrUpdate.subscribe((newRide) => {
-      this.notifService.succes(`Ride #${newRide.id} was created`);
+      this.notifService.succes(`la course #${newRide.id} a été enregistrée`);
       this.router.navigate(['calendar']);
     });
   }
 
-  calculer(parms: any) {
-    this.googleService.
-      estimateRide(
-        this.form.controls.arrivalAddress.value,
-        this.form.controls.departureAdress.value,
-        this.form.controls.departureDate.value
-      ).subscribe(data => {
-        this.estimationRide = data;
-        this.form.value.estimate = this.estimationRide;
-      });
+  calculer() {
+    this.showEstimation = false;
+
+    this.showLoadingEstimation = true;
+
+    const ride: IRide = { ...this.form.value };
+
+    this.rideService.estimateRide(ride).subscribe(() => {
+      this.form = getRideForm(ride);
+      this.showEstimation = true;
+      this.showLoadingEstimation = false;
+    }
+
+    );
   }
 
 
   deleteRide() {
     this.rideService.delete(this.currentRide.id).subscribe(() => {
-      this.notifService.succes(`Ride #${this.currentRide.id} was deleted`);
+      this.notifService.succes(`la course #${this.currentRide.id} a été supprimée`);
       this.router.navigate(['calendar']);
     });
   }
+
+
 
 }

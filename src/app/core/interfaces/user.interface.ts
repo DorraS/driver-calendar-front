@@ -81,3 +81,6 @@ export let getUserForm = (user: IUser, service: UserService): FormGroup => {
     );
 };
 
+export let userHasRole =  (codeRole: string, user: IUser): boolean => {
+     return user.roles.filter(role => role.code === codeRole).length > 0;
+};

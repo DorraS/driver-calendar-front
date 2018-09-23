@@ -78,6 +78,6 @@
   </div>
 </div>
 
-<div class="row">
+<div *ngIf="isAdmin" class="row">
     <button type="submit" class="btn button-float-right" (click)="createNewRide()" placement="left" ><i class="fas fa-plus"></i></button>
 </div>

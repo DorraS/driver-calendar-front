@@ -28,10 +28,12 @@ body
 .button-float-right
     @extend .rounded-circle 
     background: none
+    background: #64696d !important
     margin: 0
+    padding: 0
     position: fixed
     z-index: 100
-    display: none
+    // display: none
     text-decoration: none
     color: #ffffff
     background-color: #db4437 !important
@@ -40,6 +42,13 @@ body
     right: 5%
     width: 3em
     height: 3em
+
+.button-back-top 
+    @extend .button-float-right
+    bottom: 72%
+    right: 95%
+
+
 // form input invalid
 .ng-invalid
     @extend .is-invalid

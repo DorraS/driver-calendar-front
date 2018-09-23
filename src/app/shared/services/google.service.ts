@@ -42,9 +42,7 @@ export class GoogleService {
         key: this.API_KEY
       }
     }).pipe(map(data => {
-      console.log(data);
-      // return data;
-     return  data.rows[0].elements[0];
+      return  data.rows[0].elements[0];
     }));
   }
 }

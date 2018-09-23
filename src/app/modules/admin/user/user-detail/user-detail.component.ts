@@ -9,6 +9,7 @@ import { UserService } from '@core/services/user/user.service';
 import { GoogleService, Place } from '@shared/services/google.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
+import { NotificationService } from '@shared/directives/notification/notification.service';
 
 @Component({
   selector: 'dc-user-detail',
@@ -38,7 +39,8 @@ export class UserDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private rightService: RightService,
-    private googleService: GoogleService
+    private googleService: GoogleService,
+    private notifService: NotificationService
   ) {
   }
 
@@ -82,6 +84,7 @@ export class UserDetailComponent implements OnInit {
         createOrUpdateUser = this.userService.update(this.userForm.value, this.currUser.id);
       }
       createOrUpdateUser.subscribe(user => {
+        this.notifService.succes(`l'utilisatuer #${user.lastName}# a été enregister`);
         this.router.navigate(['admin/user', user.id]);
       });
 
@@ -92,7 +95,7 @@ export class UserDetailComponent implements OnInit {
     this.userService.update({ roles: [], rights: [] }, this.currUser.id).pipe(
       switchMap(user => this.userService.delete(user.id) )
     ).subscribe(data => {
-      console.log('user deleted ', data);
+      this.notifService.succes(`l'utilisatuer #${this.currUser.lastName}# a été supprimé`);
       this.router.navigate(['admin/user']);
     });
   }

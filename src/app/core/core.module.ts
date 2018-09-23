@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { LoginComponent } from '@core/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorsHandler } from '@core/services/error/errors-handler.service';
+import { BackComponent } from './back/back.component';
 
 @NgModule({
   imports: [
@@ -13,8 +14,8 @@ import { ErrorsHandler } from '@core/services/error/errors-handler.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [HeaderComponent, LoginComponent],
-  exports: [HeaderComponent, LoginComponent],
+  declarations: [HeaderComponent, LoginComponent, BackComponent],
+  exports: [HeaderComponent, LoginComponent, BackComponent],
   providers: [{
     provide: ErrorHandler,
     useClass: ErrorsHandler

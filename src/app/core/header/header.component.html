@@ -1,16 +1,18 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5" *ngIf="connectedUser">
   <a class="navbar-brand" [routerLink]="">Driver Calendar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/calendar']" routerLinkActive="router-link-active" >Calendrier</a>
+        <a class="nav-link" [routerLink]="['/calendar']" routerLinkActive="router-link-active">Calendrier</a>
       </li>
-      <li class="nav-item dropdown" [class.show]="showAdminSubMenu">
-        <a class="nav-link dropdown-toggle" (click)="showAdminMenu()" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <li *ngIf="isSuperAdmin" class="nav-item dropdown" [class.show]="showAdminSubMenu">
+        <a class="nav-link dropdown-toggle" (click)="showAdminMenu()" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
           Administration
         </a>
         <div class="dropdown-menu" [class.show]="showAdminSubMenu" aria-labelledby="navbarDropdown">
@@ -18,5 +20,36 @@
         </div>
       </li>
     </ul>
+   <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown" [class.show]="showProfileSubMenu">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="showprofileMenu()">Account
+          <b class="caret"></b></a>
+        <ul class="dropdown-menu dropdown-show-right" [class.show]="showProfileSubMenu">
+          <li>
+            <div class="navbar-content">
+              <div class="row m-2">
+                <div class="col">
+                  <span>{{connectedUser.lastName| titlecase }} {{connectedUser.firstName| titlecase}}</span>
+                  <p class="text-muted small">
+                    {{connectedUser.email}}</p>
+                  <div class="divider">
+                  </div>
+                  <a [routerLink]="['/admin/user', connectedUser.id]" (click)="showprofileMenu()" routerLinkActive="router-link-active" class="btn btn-primary btn-sm active">Consulter Profile</a>
+                </div>
+              </div>
+            </div>
+            <div class="navbar-footer">
+              <div class="navbar-footer-content h-25">
+                <div class="row">
+                  <div class="col">
+                    <a class="btn btn-light float-right" (click)="logout()"><i class="fas fa-sign-out-alt"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul> 
   </div>
 </nav>

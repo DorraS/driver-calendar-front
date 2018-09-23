@@ -16,11 +16,13 @@ export class ErrorsHandler implements ErrorHandler {
   constructor(private notifationService: NotificationService) { }
 
   handleError(error: Error) {
+    console.log(error);
+
     let message = 'Unresolved error. Contact Support.';
 
     if (error instanceof HttpErrorResponse) {
        message =  ERROR_MSG[error.status];
     }
-    this.notifationService.error(error.message);
+    this.notifationService.error(message);
   }
 }

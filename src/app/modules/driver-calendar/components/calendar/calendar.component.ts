@@ -26,10 +26,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RideService } from '@core/services/ride/ride.service';
 import { map } from 'rxjs/operators';
 import { IRide } from '@core/interfaces/ride';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import * as moment from 'moment';
 import { IUser } from '@core/interfaces/user.interface';
 import { Router } from '@angular/router';
+import { AuthService } from '@core/services/auth/auth.service';
 
 
 @Component({
@@ -73,13 +73,16 @@ export class CalendarComponent implements OnInit {
 
 
   activeDayIsOpen = true;
+  isAdmin = false;
 
   constructor(private modal: NgbModal,
               private rideSerive: RideService,
-              private router: Router) { }
+              private router: Router,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.fetchEvents();
+    this.isAdmin =  this.authService.isSuperAdmin() || this.authService.isAdmin();
   }
 
   beforeMonthViewRender({ body }: { body: CalendarMonthViewDay[] }): void {
@@ -90,7 +93,6 @@ export class CalendarComponent implements OnInit {
         groups[event.meta.driver.id] = groups[event.meta.driver.id] || [];
         groups[event.meta.driver.id].push(event);
       });
-      console.log(Object.entries(groups));
       cell['eventGroups'] = Object.entries(groups);
     });
   }
@@ -110,7 +112,6 @@ export class CalendarComponent implements OnInit {
         const remainder = 30 - (endEvent.minute() % 30);
         event.end =  moment(endEvent).add(remainder, 'minutes').toDate();
         event.meta = ride;
-        event.cssClass = 'cal-event-costum';
         return event;
       });
     }));
@@ -128,8 +129,7 @@ export class CalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    this.router.navigate(['calendar/ride/', event.id]);
   }
 
   addEvent(): void {
