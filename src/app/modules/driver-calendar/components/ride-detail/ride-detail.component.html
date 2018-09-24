@@ -47,7 +47,7 @@
           
         </div>
         
-        <div *ngIf=" !showLoadingEstimation && form && form.value && form.value.estimate && showEstimation else loading" class="form-row" disabled>
+        <div *ngIf="form && form.value && form.value.estimate && showEstimation else loading" class="form-row" disabled>
           <div class="form-group col-md-4">
             <span type="text" class="form-control" id="idTemps"> <i class="far fa-clock mr-2"></i> {{form.value.estimate.duration?.text}} </span>
           </div>
@@ -69,7 +69,7 @@
 </div>
 
 <ng-template #loading>
-    <div class="text-center">
+    <div *ngIf="showLoadingEstimation" class="text-center">
       <i class="fa fa-spin fa-spinner fa-5x"></i>
       <br> Loading events...
     </div>

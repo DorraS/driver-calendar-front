@@ -36,7 +36,7 @@
               email est obligatoire.
             </div>
             <div *ngIf="userForm.get('email').hasError('emailExists')">
-               l'adresse mail existe dèja
+               l'adresse mail est déjà utilisée
             </div>
             <div *ngIf="userForm.get('email').hasError('email')">
                format email incorrect
@@ -53,10 +53,10 @@
           <div *ngIf="userForm.get('phoneNumber').invalid && (userForm.get('phoneNumber').dirty || userForm.get('phoneNumber').touched)"
             class="invalid-feedback">
             <div *ngIf="userForm.get('phoneNumber').hasError('required')">
-              phone number is required.
+              Téléphone mobile est obligatoire.
             </div>
             <div *ngIf="userForm.get('phoneNumber').hasError('phoneNumberExists')">
-              costumer with this phone number exists (click)
+                Téléphone mobile est dèjà utilisé 
             </div>
           </div>
         </div>
@@ -68,7 +68,7 @@
       <div class="form-group">
         <input type="text" class="form-control" formControlName="address" id="ID_INPUT_ADDRESS" [ngbTypeahead]="searchAdress"
           [resultFormatter]="formatter" placeholder="Adresse" [inputFormatter]="formatter">
-      </div>
+      </div> 
       <div class="form-group">
         <ng-select [items]="roles$ | async" bindLabel="label" appendTo="body" labelForId="roles_id" [multiple]="true"
           placeholder="Rôles utilisateur" clearAllText="Clear" formControlName="roles">

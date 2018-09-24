@@ -20,7 +20,7 @@
         </div>
       </li>
     </ul>
-   <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right">
       <li class="dropdown" [class.show]="showProfileSubMenu">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="showprofileMenu()">Account
           <b class="caret"></b></a>
@@ -29,20 +29,21 @@
             <div class="navbar-content">
               <div class="row m-2">
                 <div class="col">
-                  <span>{{connectedUser.lastName| titlecase }} {{connectedUser.firstName| titlecase}}</span>
+                  <span>{{ connectedUser.lastName | titlecase }} {{ connectedUser.firstName | titlecase }}</span>
                   <p class="text-muted small">
                     {{connectedUser.email}}</p>
                   <div class="divider">
                   </div>
-                  <a [routerLink]="['/admin/user', connectedUser.id]" (click)="showprofileMenu()" routerLinkActive="router-link-active" class="btn btn-primary btn-sm active">Consulter Profile</a>
+                  <a [routerLink]="['/admin/user', connectedUser.id]" (click)="showprofileMenu()" routerLinkActive="router-link-active"
+                    class="btn btn-primary btn-sm active">Consulter Profile</a>
                 </div>
               </div>
             </div>
             <div class="navbar-footer">
-              <div class="navbar-footer-content h-25">
+              <div class="navbar-footer-content">
                 <div class="row">
                   <div class="col">
-                    <a class="btn btn-light float-right" (click)="logout()"><i class="fas fa-sign-out-alt"></i></a>
+                    <a class="btn btn-dark float-right m-1" (click)="logout()"><i class="fas fa-sign-out-alt text-light"></i></a>
                   </div>
                 </div>
               </div>
@@ -50,6 +51,6 @@
           </li>
         </ul>
       </li>
-    </ul> 
+    </ul>
   </div>
 </nav>

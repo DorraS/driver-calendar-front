@@ -53,17 +53,13 @@ export class UserDetailComponent implements OnInit {
 
 
   createUser() {
-    console.log(this.userForm);
     if (this.userForm.valid && this.userForm.value) {
-
-      console.log(this.userForm);
       const userTmp: IUser = { ...this.userForm }.value;
 
       userTmp.rights = this.userForm.value.rights ? this.userForm.value.rights.map(right =>
         right.id) : [];
       userTmp.roles = this.userForm.value.roles ? this.userForm.value.roles.map(role =>
         role.id) : [];
-      console.log(userTmp);
       /**
        * bug sails : save un model avec une association many to many
        * sails essaies de sauvgrades l'association et le object principale n'est pas encore créer du coup err undifined
@@ -84,8 +80,8 @@ export class UserDetailComponent implements OnInit {
         createOrUpdateUser = this.userService.update(this.userForm.value, this.currUser.id);
       }
       createOrUpdateUser.subscribe(user => {
-        this.notifService.succes(`l'utilisatuer #${user.lastName}# a été enregister`);
-        this.router.navigate(['admin/user', user.id]);
+        this.notifService.succes(`l'utilisatuer ID: #${user.id} a été enregisté`);
+        this.router.navigate(['admin/user']);
       });
 
     }
@@ -95,7 +91,7 @@ export class UserDetailComponent implements OnInit {
     this.userService.update({ roles: [], rights: [] }, this.currUser.id).pipe(
       switchMap(user => this.userService.delete(user.id) )
     ).subscribe(data => {
-      this.notifService.succes(`l'utilisatuer #${this.currUser.lastName}# a été supprimé`);
+      this.notifService.succes(`l'utilisatuer ID: #${this.currUser.id} a été supprimé`);
       this.router.navigate(['admin/user']);
     });
   }

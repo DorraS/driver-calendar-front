@@ -73,7 +73,9 @@
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)" 
       [eventTitleTemplate]="title" 
-      [hourSegments]="4">
+      [hourSegments]="2"
+      [dayStartHour]="6"
+      [dayEndHour]="22">
     </mwl-calendar-day-view>
   </div>
 </div>
