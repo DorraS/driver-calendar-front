@@ -25,7 +25,7 @@
           <input type="datetime-local" class="form-control" formControlName="departureDate" id="ID_INPUT_DEART_DATE"
             placeholder="Date de départ" required>
         </div>
-        <div class="form-group">
+        <div class="form-group col-md-6">
           <ng-select [items]="typeRide$ | async" bindLabel="label" appendTo="body" labelForId="ID_RIDE_TYPE"
             placeholder="Type de course" clearAllText="Clear" formControlName="rideType">
           </ng-select>
